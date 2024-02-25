@@ -41,7 +41,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         log.info("you want to get Department Details By Id : {}", id);
         Department department = departmentRepository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException("This department with id " + id + "doesn't exist"));
-        log.info("Department details : {}", department);
+        log.info("Department details: {}", department);
         return department;
     }
 
