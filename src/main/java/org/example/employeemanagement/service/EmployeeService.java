@@ -19,7 +19,9 @@ public interface EmployeeService {
 
     Page<Employee> listAllEmployeesByPages(Pageable pageable);
 
-    String updateEmployee(EmployeeRequestDTO employeeRequestDTO, String id);
+    String updateEmployee(EmployeeRequestDTO employeeRequestDTO, Long id);
 
     List<Employee> search(String query);
+
+    String deleteEmployee(Long id);
 }

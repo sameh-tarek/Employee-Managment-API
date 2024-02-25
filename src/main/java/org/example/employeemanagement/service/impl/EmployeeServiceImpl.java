@@ -60,22 +60,32 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public String updateEmployee(EmployeeRequestDTO employeeRequestDTO, String id) {
-        Employee employee = employeeMapper.toEntity(employeeRequestDTO);
-        log.info("You want to update Employee with id : {} To : {}", id, employeeRequestDTO);
-        Long longId = Long.parseLong(id);
-        employee.setId(longId);
-        employeeRepository.save(employee);
-        log.info("Employee updated successfully : {}", employee);
-        return "success";
-    }
-
-    @Override
     public List<Employee> search(String query) {
         log.info("You want to search for Employees with query: {}", query);
         List<Employee> employees = employeeRepository.findByFirstNameContainingIgnoreCase(query);
         log.info("Employees from search : {}", employees);
         return employees;
+    }
+
+    @Override
+    public String updateEmployee(EmployeeRequestDTO employeeRequestDTO, Long id) {
+        Employee existEmployee = employeeRepository.findById(id).orElseThrow(() -> new RecordNotFoundException("This Employee with Id "+ id + "Doesn't Exist"));
+        Employee updatedEmployee = employeeMapper.toEntity(employeeRequestDTO);
+        updatedEmployee.setId(id);
+        log.info("You want to update employee with id: {}, from: {}, to: {}", id, existEmployee, updatedEmployee);
+        employeeRepository.save(updatedEmployee);
+        log.info("Employee updated successfully : {}", updatedEmployee);
+        return "success";
+    }
+
+    @Override
+    public String deleteEmployee(Long id) {
+        log.info("You want to delete Employee with id {}", id);
+        Employee employee = employeeRepository.findById(id)
+                .orElseThrow(() -> new RecordNotFoundException("This Employee with id " + id + "Already doesn't Exist"));
+        employeeRepository.delete(employee);
+        log.info("this Employee Deleted successfully: {}", employee);
+        return "success";
     }
 
 }

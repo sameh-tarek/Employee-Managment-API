@@ -43,14 +43,19 @@ public class EmployeeController {
         return employeeService.addEmployee(employeeRequestDTO);
     }
 
-    @PutMapping("/update/{id}")
-    public String updateEmployee(@RequestBody @Validated EmployeeRequestDTO employeeRequestDTO, @PathVariable(name = "id") String id){
-        return employeeService.updateEmployee(employeeRequestDTO , id);
-    }
-
     @GetMapping("/search")
     public List<Employee> search(@RequestParam String query){
         return employeeService.search(query);
+    }
+
+    @PutMapping("/update/{id}")
+    public String updateEmployee(@RequestBody @Validated EmployeeRequestDTO employeeRequestDTO, @PathVariable(name = "id") Long id){
+        return employeeService.updateEmployee(employeeRequestDTO , id);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public String deleteEmployee(@PathVariable(name = "id") Long id){
+        return employeeService.deleteEmployee(id);
     }
 
 }
